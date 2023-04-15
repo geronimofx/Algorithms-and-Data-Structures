@@ -4,4 +4,4 @@ Repositório criado para a disciplina de Estrutura de Dados Não Lineares e tamb
 
 ## As atividades foram desenvolvidas seguindo a seguinte ordem:
 
-1. [Binary Search Tree](#binary-search-tree) 
+1. [Binary Search Tree](/Binary%20Search%20Tree/) 
