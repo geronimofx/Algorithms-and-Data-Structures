@@ -1,6 +1,6 @@
 # Algorithms and Data Structures
 
-Reppsotório criado para a disciplina de Estrutura de Dados Não Lineares e também estudos pessoais com algoritimos utilizando a linguaguem de programação Java.
+Repositório criado para a disciplina de Estrutura de Dados Não Lineares e também estudos pessoais sobre algoritimos utilizando a linguaguem de programação Java.
 
 ## As atividades foram desenvolvidas seguindo a seguinte ordem:
 
