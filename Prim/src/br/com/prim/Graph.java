@@ -1,81 +1,84 @@
+// A Java program for Prim's Minimum Spanning Tree (MST) algorithm.
+// The program is for adjacency matrix representation of the graph
 package br.com.prim;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.PriorityQueue;
+class MST {
+  private int V; // Número de vértices no grafo
 
-class Graph {
-  private int vertices;
-  private List<List<Edge>> adjacencyList;
-
-  public Graph(int vertices) {
-    this.vertices = vertices;
-    adjacencyList = new ArrayList<>(vertices);
-    for (int i = 0; i < vertices; i++) {
-      adjacencyList.add(new ArrayList<>());
-    }
+  MST(int V) {
+    this.V = V;
   }
 
-  public void addEdge(int source, int destination, int weight) {
-    Edge edge = new Edge(source, destination, weight);
-    adjacencyList.get(source).add(edge);
+  // A utility function to find the vertex with minimum key
+  // value, from the set of vertices not yet included in MST
+  int minKey(int key[], Boolean mstSet[]) {
+    // Initialize min value
+    int min = Integer.MAX_VALUE, min_index = -1;
 
-    edge = new Edge(destination, source, weight);
-    adjacencyList.get(destination).add(edge);
-  }
-
-  public void primMST() {
-    boolean[] visited = new boolean[vertices];
-    int[] parent = new int[vertices];
-    int[] key = new int[vertices];
-
-    Arrays.fill(key, Integer.MAX_VALUE);
-    Arrays.fill(visited, false);
-
-    PriorityQueue<Edge> priorityQueue = new PriorityQueue<>(vertices, new EdgeComparator());
-    key[0] = 0;
-    parent[0] = -1;
-    priorityQueue.offer(new Edge(0, 0, 0));
-
-    while (!priorityQueue.isEmpty()) {
-      int u = priorityQueue.poll().destination;
-      visited[u] = true;
-
-      for (Edge edge : adjacencyList.get(u)) {
-        int v = edge.destination;
-        int weight = edge.weight;
-        if (!visited[v] && weight < key[v]) {
-          priorityQueue.remove(new Edge(v, 0, key[v]));
-          key[v] = weight;
-          priorityQueue.offer(new Edge(v, v, weight));
-          parent[v] = u;
-        }
+    for (int v = 0; v < V; v++)
+      if (mstSet[v] == false && key[v] < min) {
+        min = key[v];
+        min_index = v;
       }
-    }
 
-    System.out.println("Minimum Spanning Tree:");
-    for (int i = 1; i < vertices; i++) {
-      System.out.println("Edge: " + parent[i] + " - " + i);
-    }
+    return min_index;
   }
 
-  private static class Edge {
-    int source;
-    int destination;
-    int weight;
-
-    Edge(int source, int destination, int weight) {
-      this.source = source;
-      this.destination = destination;
-      this.weight = weight;
-    }
+  // A utility function to print the constructed MST stored in
+  // parent[]
+  void printMST(int parent[], int graph[][]) {
+    System.out.println("Edge \tWeight");
+    for (int i = 1; i < V; i++)
+      System.out.println(parent[i] + " - " + i + "\t" + graph[i][parent[i]]);
   }
 
-  private static class EdgeComparator implements java.util.Comparator<Edge> {
-    @Override
-    public int compare(Edge edge1, Edge edge2) {
-      return Integer.compare(edge1.weight, edge2.weight);
+  // Function to construct and print MST for a graph represented
+  // using adjacency matrix representation
+  void primMST(int graph[][]) {
+    // Array to store constructed MST
+    int parent[] = new int[V];
+
+    // Key values used to pick minimum weight edge in cut
+    int key[] = new int[V];
+
+    // To represent set of vertices included in MST
+    Boolean mstSet[] = new Boolean[V];
+
+    // Initialize all keys as INFINITE
+    for (int i = 0; i < V; i++) {
+      key[i] = Integer.MAX_VALUE;
+      mstSet[i] = false;
     }
+
+    // Always include first 1st vertex in MST.
+    key[0] = 0; // Make key 0 so that this vertex is
+    // picked as first vertex
+    parent[0] = -1; // First node is always root of MST
+
+    // The MST will have V vertices
+    for (int count = 0; count < V - 1; count++) {
+      // Pick thd minimum key vertex from the set of vertices
+      // not yet included in MST
+      int u = minKey(key, mstSet);
+
+      // Add the picked vertex to the MST Set
+      mstSet[u] = true;
+
+      // Update key value and parent index of the adjacent
+      // vertices of the picked vertex. Consider only those
+      // vertices which are not yet included in MST
+      for (int v = 0; v < V; v++)
+
+        // graph[u][v] is non zero only for adjacent vertices of m
+        // mstSet[v] is false for vertices not yet included in MST
+        // Update the key only if graph[u][v] is smaller than key[v]
+        if (graph[u][v] != 0 && mstSet[v] == false && graph[u][v] < key[v]) {
+          parent[v] = u;
+          key[v] = graph[u][v];
+        }
+    }
+
+    // print the constructed MST
+    printMST(parent, graph);
   }
 }

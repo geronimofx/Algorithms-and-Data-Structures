@@ -2,17 +2,19 @@ package br.com.prim;
 
 public class PrimAlgorithmExample {
   public static void main(String[] args) {
-    int vertices = 5;
-    Graph graph = new Graph(vertices);
 
-    graph.addEdge(0, 1, 2);
-    graph.addEdge(0, 3, 6);
-    graph.addEdge(1, 2, 3);
-    graph.addEdge(1, 3, 8);
-    graph.addEdge(1, 4, 5);
-    graph.addEdge(2, 4, 7);
-    graph.addEdge(3, 4, 9);
+    int vertices = 5; // Defina o número de vértices aqui
 
-    graph.primMST();
+    MST t = new MST(vertices);
+    int graph[][] = new int[][] {
+        { 0, 2, 0, 6, 0 },
+        { 2, 0, 3, 8, 5 },
+        { 0, 3, 0, 0, 7 },
+        { 6, 8, 0, 0, 9 },
+        { 0, 5, 7, 9, 0 }
+    };
+
+    // Print the solution
+    t.primMST(graph);
   }
 }

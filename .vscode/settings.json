@@ -1,3 +1,7 @@
 {
-    "explorer.compactFolders": false
+    "explorer.compactFolders": false,
+    "java.project.sourcePaths": [
+        "Prim/src",
+        "algoritmo-prim-master/src/main/java/br/com/prim"
+    ]
 }
